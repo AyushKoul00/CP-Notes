@@ -99,7 +99,6 @@ GEM
     yell (2.2.2)
 
 PLATFORMS
-  ruby
   x64-mingw-ucrt
 
 DEPENDENCIES
