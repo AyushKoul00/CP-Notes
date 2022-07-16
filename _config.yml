@@ -1,34 +1,22 @@
 # The Site Configuration
 
-# Import the theme
 theme: jekyll-theme-chirpy
 
-# Change the following value to '/PROJECT_NAME' ONLY IF your site type is GitHub Pages Project sites
-# and doesn't have a custom domain.
-baseurl: '/My-Portfolio'
+baseurl: '/CP-Notes'
 
-# The language of the webpage › http://www.lingoes.net/en/translator/langcode.htm
-# If it has the same name as one of the files in folder `_data/locales`, the layout language will also be changed,
-# otherwise, the layout language will use the default value of 'en'.
 lang: en
 
-# Additional parameters for datetime localization, optional. › https://github.com/iamkun/dayjs/tree/dev/src/locale
 prefer_datetime_locale:
 
-# Change to your timezone › http://www.timezoneconverter.com/cgi-bin/findzone/findzone
 timezone: Asia/Kolkata
-
-# jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
-# ↓ --------------------------
 
 title: Ayush Koul                          # the main title
 
-tagline: My Personal Portfolio   # it will display as the sub-title
+tagline: A collection of my CP Notes   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
-  A site about me and showcasing some of my work
+  A site containing my CP notes
 
-# fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
 url: "https://ayushkoul00.github.io"
 
 github:
@@ -38,16 +26,11 @@ twitter:
   username: ayushkoul00            # change to your twitter username
 
 social:
-  # Change to your full name.
-  # It will be displayed as the default author of the posts and the copyright owner in the Footer
   name: Ayush Koul
   email: ayushkoul00@gmail.com             # change to your email address
   links:
-    # The first element serves as the copyright owner's link
     - https://twitter.com/ayushkoul00      # change to your twitter homepage
-    - https://github.com/AyushKoul00      # change to your github homepage
-    # Uncomment below to add more social links
-    # - https://www.facebook.com/username
+    - https://github.com/AyushKoul00
     - https://www.linkedin.com/in/ayushkoul00/
 
 google_site_verification:               # fill in to your verification string
@@ -57,35 +40,16 @@ google_site_verification:               # fill in to your verification string
 
 google_analytics:
   id:                 # fill in your Google Analytics ID
-  # Google Analytics pageviews report settings
   pv:
     proxy_endpoint:   # fill in the Google Analytics superProxy endpoint of Google App Engine
     cache_path:       # the local PV cache data, friendly to visitors from GFW region
 
-# Prefer color scheme setting.
-#
-# Note: Keep empty will follow the system prefer color by default,
-# and there will be a toggle to switch the theme between dark and light
-# on the bottom left of the sidebar.
-#
-# Available options:
-#
-#     light  - Use the light color scheme
-#     dark   - Use the dark color scheme
-#
 theme_mode:   # [light|dark]
 
-# The CDN endpoint for images.
-# Notice that once it is assigned, the CDN url
-# will be added to all image (site avatar & posts' images) paths starting with '/'
-#
-# e.g. 'https://cdn.com'
 img_cdn:
 
-# the avatar on sidebar, support local or CORS resources
-avatar:
+avatar: assets/img/Toon_Profile_Pic.png
 
-# boolean type, the global switch for ToC in posts.
 toc: true
 
 comments:
