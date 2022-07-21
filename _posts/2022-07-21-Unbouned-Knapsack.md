@@ -1,5 +1,5 @@
 ---
-title: "0/1 Knapsack"
+title: "Unbounded Knapsack"
 categories: [Concepts, Dynamic Programming]
 tags: [knapsack]     # TAG names should always be lowercase
 author: Ayush Koul
@@ -9,7 +9,9 @@ math: true
 ---
 
 ### Problem Statement:
-We are given an array of `n` items, each with a `weight` ($\boldsymbol{W_i}$) and a `profit` ($\boldsymbol{P_i}$), and a bag (aka knapsack) which has a `limited capacity` of $\boldsymbol{C}$ (where $\boldsymbol{C}$ is the maximum amount of weight that the bag can hold). The goal is to find a subset of the items such that their `total weight is <= C` and the sum of their profits is `maximum`. 
+We are given an array of `n` items, each with a `weight` ($\boldsymbol{W_i}$) and a `profit` ($\boldsymbol{P_i}$),and a bag (aka knapsack) which has a `limited capacity` of $\boldsymbol{C}$ (where $\boldsymbol{C}$ is the maximum amount of weight that the bag can hold). The goal is to find a subset of the items such that their `total weight is <= C` and the sum of their profits is `maximum`. 
+
+Each item has an infinite quantity and can be used any amount of times.
 
 Given:
 
@@ -17,27 +19,11 @@ Given:
 - $W : [W_0, W_1, ... W_{n-1}] \ (Size = n)$
 - $P : [P_0, P_1, ... P_{n-1}] \ (Size = n)$
 
-> Note: Each item can only be used **once**
+> Note: Each item can only be used **any number of times** (unlike 0/1 Knapsack)
 {: .prompt-warning }
 
 ### Brute-Force/Recursive Approach
-For each item, we can make `2 choices`: to `include` it or to `exclude` it. Therefore, the number of combinations
-choices we have is $\boldsymbol{2^n}$. We can recursively choose or not choose an item, based on the space available
-in the bag, and then keep track of the maximum profit attained throught all the subsets/combinations we go through.
-
-The recursive function `knapsack` will take the weight array (`W`), profit array (`P`), current space left in the
-bag (`Space`) and the current index of the item (`i`).
-
-For each item, it will first check to see if the weight of the item `W[i]` doesn't excede the current capacity
-(`Space`) of the bag. If it does, the item will be excluded (since there is no other choice). Otherwise, we will 
-find the maximum profit between including and excluding the item (because it is possible that the item is in the 
-subset of items that result in the maximum profit and it is also possible that it is not in that subset - we need to 
-consider both possibilites).
-
-![0/1 Knapsack Recursive Decision Tree](/assets/img/01_Knapsack_DT.png)
-_0/1 Knapsack Recursive Decision Tree
-([Source](https://youtu.be/mGfK-j9gAQA?list=PLEJXowNB4kPxBwaXtRO1qFLpCzF75DYrS&t=195))_
-
+Unlike [0/1 Knapsack]({% post_url 2022-06-29-01-Knapsack %}), we can use an item any number of times: $0, 1, ... \infty$. Therefore, here the approach is slightly different. Here, the main idea still remains the same: for each item, we have 2 choices: For each item, we can make `2 choices`: to `include` it or to `exclude` it. However, the only difference is, if we `include` an item, we don't move on. We have to also consider the possibility that it can be included again (Therefore, when we include an item, we dont decrement `i`):
 
 #### Code
 
@@ -57,8 +43,8 @@ int knapsack(const vector<int> &W, const vector<int> &P, int Space, int i)
     if (W[i] > Space) 
         return knapsack(W, P, Space, i - 1); //Exclude the item
     else
-        return max(knapsack(W, P, Space, i - 1),                //Exclude the item
-                   P[i] + knapsack(W, P, Space - W[i], i - 1)); //Include the item
+        return max(knapsack(W, P, Space, i - 1),            //Exclude the item
+                   P[i] + knapsack(W, P, Space - W[i], i)); //Include the item
 }
 
 int main()
@@ -81,35 +67,7 @@ int main()
 
 
 ### Recursive (Top-down) + Memoization
-If we notice, out recursive function only depends on two things: the items we choose (`i`) and the current capacity 
-of the bag (`Space`). The weights and profit arrays remain constant in each call (we could choose to make them 
-global as well). Therefore, if we think of the recursive call as `knapsack(Space, i)` then we can see that out 
-recursive function re-calculates a call with the same parameters multiple times. Example:
-
-```
-In the following recursion tree, K(a, b) refers 
-to knapSack(Space, i).
-The recursion tree is for following sample inputs.
-W[] = {1, 1, 1}, P[] = {10, 20, 30}, C = 2
-
-                       K(C, n-1)
-                       K(2, 3)  
-                   /            \ 
-                 /                \               
-            K(2, 2)                  K(1, 2)
-          /       \                  /    \ 
-        /           \              /        \
-       K(2, 1)      K(1, 1)        K(1, 1)     K(0, 1)
-       /  \         /   \              /        
-     /      \     /       \          /            
-K(2, 0)  K(1, 0)  K(1, 0)  K(0, 0)  K(1, 0)   
-```
-
-We can see that `K(1, 1)` is calculated multiple times. Eventhough it may seem like a small calculation from the 
-example, it is actually very expensive. Imagine if the tree was very deep and we can to calculate the same 
-sub-problems (aka sub-calls) multiple times, it would make the time complexity exponential (which is seen in the 
-brute-force approach). Caching the result saves this time and only explores new sub-problems/sub-calls that haven't 
-been cached.
+Here, we will just cache each result so it is not re-computed
 
 #### Code
 ```cpp
@@ -143,8 +101,8 @@ int knapsack(const vector<int> &W, const vector<int> &P, int Space, int i)
     if (W[i] > Space)
         return dp[{i, Space}] = knapsack(W, P, Space, i - 1); //Exclude the item
     else
-        return dp[{i, Space}] = max(knapsack(W, P, Space, i - 1),                //Exclude the item
-                                    P[i] + knapsack(W, P, Space - W[i], i - 1)); //Include the item
+        return dp[{i, Space}] = max(knapsack(W, P, Space, i - 1),            //Exclude the item
+                                    P[i] + knapsack(W, P, Space - W[i], i)); //Include the item
 }
 
 int main()
@@ -177,7 +135,7 @@ dp(-1, Space) = 0
 if (W[i] > Space)
     dp(i, Space) = dp(i-1, Space)
 else
-    dp(i, Space) = max(dp(i-1, Space), P[i] + dp(i-1, Space - W[i]))
+    dp(i, Space) = max(dp(i-1, Space), P[i] + dp(i, Space - W[i]))
 ```
 We know that `i` will be in the range of `[0, n-1]` and Space will be in the range of `[1, C]`. We can use this to 
 change dp into a 2D matrix/array for caching the results. In addition, we will be generating the answer from the 
@@ -212,7 +170,7 @@ int knapsack(const vector<int> &W, const vector<int> &P, int C)
             if (W[i - 1] > Space)
                 dp[i][Space] = dp[i - 1][Space];
             else
-                dp[i][Space] = max(dp[i - 1][Space], P[i - 1] + dp[i - 1][Space - W[i - 1]]);
+                dp[i][Space] = max(dp[i - 1][Space], P[i - 1] + dp[i][Space - W[i - 1]]);
         }
     }
 
