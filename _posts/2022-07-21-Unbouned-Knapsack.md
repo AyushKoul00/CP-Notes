@@ -19,7 +19,7 @@ Given:
 - $W : [W_0, W_1, ... W_{n-1}] \ (Size = n)$
 - $P : [P_0, P_1, ... P_{n-1}] \ (Size = n)$
 
-> Note: Each item can only be used **any number of times** (unlike 0/1 Knapsack)
+> Note: Each item can be used **any number of times** (unlike 0/1 Knapsack)
 {: .prompt-warning }
 
 ### Brute-Force/Recursive Approach
