@@ -1,0 +1,5 @@
+User-agent: *
+
+Disallow: /norobots/
+
+Sitemap: https://ayushkoul00.github.io/CP-Notes/sitemap.xml
